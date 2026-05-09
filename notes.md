@@ -11,9 +11,10 @@
 
 ## Research
 
-### Potencjalne tematy
+### Ciekawe elementy
 
 - [Blender MCP](https://www.blender.org/lab/mcp-server/)
+- [Książka o bezpieczeństwie MCP](https://www.google.pl/books/edition/Cyber_Security_Adopting_the_Model_Contex/lLqeEQAAQBAJ?hl=pl&gbpv=1&dq=mcp+protocol&pg=PT17&printsec=frontcover)
 
 ### OWASP
 

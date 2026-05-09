@@ -1,1 +1,18 @@
 \section{Architektura MCP}
+
+Rozwiązanie MCP składa się z trzech głównych rodzajów komponentów:
+
+\begin{itemize}
+    \item gospodarzy (ang. \textit{MCP Host}) - aplikacji AI koordynujących i zarządzających klientami MCP,
+    \item klientów (ang. \textit{MCP Client}) - komponentów łączących się z serwerami i pozyskujących kontekt dla gospodarzy,
+    \item serwerów (ang. \textit{MCP Server}) - programów dostarczających kontekst dla klientów.
+\end{itemize}
+
+Standard definiuje trzy rodzaje usług, które serwer może udostępnić klientowi (ang. \textit{primitives}). Pierwszym są \textbf{narzędzia} (ang. \textit{tools}). Są to funkcje wołane przez aplikację AI, umożliwiające im wykonanie konkretnej akcji. Każda funkcja ma jasno zdefniowane wejścia i wyjścia w formacie JSON. Przykładowa konfiguracja ,
+  zasoby (ang. \textit{resources}) - pasywne źródła danych dające dodatkowy kontekst dla aplikacji AI,
+   prompty (ang. \textit{prompts}) - szablony zapytań ułatwiających interakcje z modelami językowymi.
+
+
+Każdy rodzaj usługi ma zdefiniowane metody \verb|*/list| do wyszukiwania dostępnych zasobów, \verb|*/get| do ich pozyskania, a w przypadku narzędzi - \verb|tools/call| do ich wywoływania.
+
+\cite{mcp-docs}
