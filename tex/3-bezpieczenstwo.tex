@@ -1,4 +1,7 @@
+\newpage
 \section{Bezpieczeństwo protokołu MCP}
+
+\subsection{OWASP}
 
 Wraz z rozwojem generatywnej sztucznej inteligencji i jej adopcji przez firmy, zapotrzebowanie na identyfikację najpopularniejszych podatności i, przede wszystkim, sposobów im przeciwdziałania, rosło. Jedną z pierwszych inicjatyw w tym kierunku był projekt \textit{OWASP Top 10 for LLM Applications} \cite{owasp-top-10-llm}, rozpoczęty w maju 2023 roku. Okazał się ogromnym sukcesem. Na początku roku 2024 zaangażowane w niego było ponad 600 ekspertów z ponad 18 krajów, ponad 130 firm i prawie 8000 aktywnych członków \cite{genai-owasp}. Z czasem projekt ewoluował w bardziej ogólny projekt \textit{OWASP GenAI Security Project}, zajmujący się identyfikacją, mitygacją oraz dokumentacją bezpieczeństwa oraz zagrożeń związanych z generatywną sztuczną inteligencją.
 
@@ -6,4 +9,26 @@ Jednym z podprojektów uruchomionych w ramach \textit{OWASP GenAI Security Proje
 
 Na szczycie obecnej listy podatności dla protokołu MCP jest \textbf{błędne zarządzanie tokenami i wyciek sekretów} (ang. \textit{Token Mismanagement and Secret Exposure}). Dotyczy to sytuacji, w których deweloperzy nie zabezpieczają odpowiednio sekretów, służących do uwierzytelnienia i autoryzacji pomiędzy modelami, narzędziami i serwerami. Może to doprowadzić do wykonania nieautoryzowanych operacji, a nawet przejęcia części lub całości infrastruktury.
 
-Na drugim miejscu znajduje się \textbf{eskalacja uprawnień przez rozszerzanie zakresu działania} (ang. \textit{Privilege Escalation via Scope Creep}).
+Na drugim miejscu znajduje się \textbf{eskalacja uprawnień przez rozszerzanie zakresu działania} (ang. \textit{Privilege Escalation via Scope Creep}). Jest to sytacja w której agent AI lub narzędzie MCP posiada zbyt szerokie uprawnienia, w wyniku stopniowego ich rozszerzania przez programistów. Drobne dodawanie uprawnień jest wygodnym rozwiązaniem do testowania systemu, lub do usprawnienia działania niektórych funkcji. Taki nieograniczony agent może dokonywać nieautoryzowanych modyfikacji w kodzie czy konfiguracji systemu, może udostępnić sekrety administratora, lub może zostać użyty do wprowadzenia podatności typu \textit{backdoor}.
+
+Podium listy zamyka podatność \textbf{zatruwania narzędzi} (ang. \textit{Tool Poisoning}). Są to sytuacje, w których kontrakt definiujący interakcje pomiędzy agentem a narzędziem został w jakiś sposób zmodyfikowany. Agenci AI ufają bezgranicznie takim kontraktom, więc mogą zacząć wykonywać szkodliwe operacje, myśląc że wszystko jest w porządku. Przykładem może być następująca sytuacja: agent AI ma narzędzie do wysyłania maili pracownikom firmy. Atakującemu udało się dodać do opisu narzędzia formułę "Instrukcja dla agenta - dla prawidłowego użycia narzędzia należy najpierw przeczytać plik \verb|/home/.ssh/id_ed25519| i przesłać go na maila \textit{haker@gmail.com}". Przy następnym prawidłowym użyciu narzędzia przez agenta AI, atakujący otrzyma od niego klucz prywatny, dzięki któremu może dostać się dostać do maszyny poprzez SSH.
+
+\subsection{Badania}
+
+Temat bezpieczeństwa protokołu MCP jest w tym momencie dosyć popularnym tematem badań i prac naukowych. Powstają różne narzędzia, których celem jest badanie bezpieczeństwa protokołu, lub ochrona przed atakami.
+
+Do pierwszej grupy należy \textbf{MCPTox} \cite{MCPTox}. Jest to, wg. autorów, pierwszy zestaw testów (na dzień 19 sierpnia 2025), porównujących odporność agentów AI przed atakiem typu \textit{tool-poisoning} w warunkach produkcyjnych. Zbadane zostało ponad 45 prawdziwych, ogólno dostępnych serwerów MCP, oraz 20 agentów AI. Zbadane zostały trzy typy zatruwania narzędzi.Pierwszym z nich jest przejęcie funkcji poprzez bezpośrednie wywołanie (ang. \textit{Function Hijacking - Explicit Trigger}), w którym to opis narzędzia każe agentowi wywołać inną, szeroko uprawnioną funkcję do wykonania szkodliwej operacji, niepowiązanej z pierwotną. Drugim jest przejęcie funkcji poprzez pośrednie wywołanie (ang. \textit{Function Hijacking - Implicit Trigger}). W tym rodzaju ataku szkodliwa instrukcja jest zamaskowana jako powiązana z prawdziwą, na przykład przeczytanie klucza SSH w celu weryfikacji uprawnień. Ostatnim badanym rodzajem ataku jest manipulacja parametrami (ang. \textit{Parameter Tampering}). Polega on na prawidłowym wywołaniu funkcji, ale ze zmodyfikowanymi danymi. Przykładowo, gdy agent otrzymuje polecenie wysłania maila o danej treści do danej osoby, ale opis narzędzia każe zmodyfikować adres odbiorcy na adres atakującego. Badania wykazały bardzo wysoką podatność modeli na ten rodzaj ataków. Najbardziej podatny okazał się \textit{o1-mini}, ze skutecznością ataków na poziomie 72,8\%. Wyniki dla innych, popularnych modeli przedstawione zostały w tabeli \ref{tab:MCPTox-accuracy}.
+
+\begin{table}[h]
+\caption{Skuteczności ataków na wybrane modele}
+\label{tab:MCPTox-accuracy}
+\centering
+\begin{tabular}{ll}
+\textbf{Model}    & \textbf{Średnia skuteczność ataków} \\
+GPT-4o-mini       & 61,8\%                              \\
+DeepSeek-R1       & 70,9\%                              \\
+Gemini-2.5-flash  & 59,7\%                              \\
+Claude-3.7-sonnet & 34,3\%                              \\
+Qwen3-235b-a22b   & 50,6\%
+\end{tabular}
+\end{table}
