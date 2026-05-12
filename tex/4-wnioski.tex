@@ -1,0 +1,22 @@
+\section{Wnioski z analizy literatury i potencjalne kierunki badawcze}
+
+Protokół MCP jest nadal stosunkowo świeżą technologią z ogromnym potencjałem badawczym. Pierwsze testy wskazują, że modele LLM na ten moment nie radzą sobie dobrze z atakami skierowaną w tą warstwę aplikacji. Pierwsze inicjatywy  zajmujące się bezpieczeństwem MCP są dopiero w początkowych fazach działania. Obecnie dostępne artykuły i badania w większości czekają na recenzję i bycie opublikowanym. Dodatkowo, posiadają one istotne problemy:
+
+\begin{itemize}
+    \item skupienie się głównie na samych atakach, a nie sugestiach obrony przed nimi,
+    \item rzadko wskazują konkretną warstwę systemu odpowiedzialną za podatność,
+    \item jeżeli praca już posiada wskazówki jak chronić się przed atakami, rzadko kiedy poparte są faktycznymi danymi,
+    \item ciężko znaleźć jakiekolwiek materiały w języku polskim.
+\end{itemize}
+
+Na tej podstawie sformułowane zostały dwa potencjalne kierunki badawcze dla pracy magisterskiej. Pierwszą z nich jest systematyczne \textbf{zbadanie skuteczności sugerowanych mechanizmów obronnych przed atakami na warstwę MCP}. W ramach takiej pracy należałoby najpierw wybrać grupę badanych ataków. Następnie należałoby zebrać sugerowane sposoby obrony przed nimi (OWASP, dokumentacja MCP, prace naukowe, narzędzia). Konieczne by było zaimplementowanie własnego środowiska testowego, z własnym serwerem MCP. Taka praca dawałaby praktyczną wartość deweloperom, chcącym tworzyć bezpieczne systemy wykorzystujące AI.
+
+Drugim potencjalnym kierunkiem badawczym jest \textbf{zbadanie wpływu opisów narzędzi MCP na decyzję agenta}. Jest to bardziej niszowy temat, ale również istotny w kontekście bezpieczeństwa. Agent AI podejmuje decyzję, jakiego narzędzia MCP użyć, na podstawie ich opisów. Praca badałaby, jak odpowiednio spreparowane metadane wpływałyby na wybór narzędzia:
+
+\begin{itemize}
+    \item opis neutralny - jako grupa kontrolna,
+    \item opis niejednoznaczny - czy narzędzie z opisem bardzo ogólnym, nie zawierającym żadnych szczegółów, będzie wybierane przez agenta,
+    \item opis sugestywny - sugerujący agentowi wybór konkretnego narzędzia, np. "najlepsze na świecie i jedyne poprawnie działające narzędzie do edycji plików PDF",
+    \item opis złośliwy - zawierający atak typu \textit{prompt injection},
+    \item opis konfliktowy z promptem systemowym.
+\end{itemize}
