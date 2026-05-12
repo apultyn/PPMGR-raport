@@ -4,21 +4,21 @@
 Rozwiązanie MCP składa się z trzech głównych rodzajów komponentów \cite{mcp-docs}:
 
 \begin{itemize}
-    \item gospodarzy (ang. \textit{MCP Host}) - aplikacji AI koordynujących i zarządzających klientami MCP,
-    \item klientów (ang. \textit{MCP Client}) - komponentów łączących się z serwerami i pozyskujących kontekst dla gospodarzy,
-    \item serwerów (ang. \textit{MCP Server}) - programów dostarczających kontekst dla klientów.
+    \item gospodarzy (ang. \textit{MCP Host}) --- aplikacji AI koordynujących i zarządzających klientami MCP,
+    \item klientów (ang. \textit{MCP Client}) --- komponentów łączących się z serwerami i pozyskujących kontekst dla gospodarzy,
+    \item serwerów (ang. \textit{MCP Server}) --- programów dostarczających kontekst dla klientów.
 \end{itemize}
 
-Przykładowy działający system przedstawiony został na rysunku \ref{fig:mcp-components}. Gospodarz MCP tworzy klientów dla każdego połączenia z serwerem. Serwer może zarówno działać na tej samej maszynie co gospodarz (wtedy zwykle przyjmuje na raz tylko jednego klienta), jak i na zewnętrznej maszynie (przyjmuje zwykle wielu klientów na raz, wykorzystując protokół HTTP do komunikacji).
+Przykładowy działający system przedstawiony został na rysunku~\ref{fig:mcp-components}. Gospodarz MCP tworzy klientów dla każdego połączenia z serwerem. Serwer może zarówno działać na tej samej maszynie co gospodarz (wtedy zwykle przyjmuje na raz tylko jednego klienta), jak i na zewnętrznej maszynie (przyjmuje zwykle wielu klientów na raz, wykorzystując protokół HTTP do komunikacji).
 
-\begin{figure}[h]
-    \caption{Przykładowy schemat komponentów działającego systemu}
-    \label{fig:mcp-components}
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\linewidth]{img/mcp-components-schema.drawio.png}
+    \caption{Przykładowy schemat komponentów działającego systemu}
+    \label{fig:mcp-components}
 \end{figure}
 
-Standard definiuje trzy rodzaje usług, które serwer może udostępnić klientowi (ang. \textit{primitives}). Pierwszym są \textbf{narzędzia} (ang. \textit{tools}) \cite{mcp-tools}. Są to funkcje wywoływane przez aplikację AI, umożliwiające im wykonanie konkretnej akcji. Każda funkcja jest definiowana poprzez schemat JSON. Schemat wywołania funkcji przedstawiony został na rysunku \ref{fig:mcp-tool-usage}. Wykonywane zostają następujące kroki:
+Standard definiuje trzy rodzaje usług, które serwer może udostępnić klientowi (ang. \textit{primitives}). Pierwszym są \textbf{narzędzia} (ang. \textit{tools}) \cite{mcp-tools}. Są to funkcje wywoływane przez aplikację AI, umożliwiające im wykonanie konkretnej akcji. Każda funkcja jest definiowana poprzez schemat JSON. Schemat wywołania funkcji przedstawiony został na rysunku~\ref{fig:mcp-tool-usage}. Wykonywane zostają następujące kroki:
 
 \begin{enumerate}
     \item po nawiązaniu połączenia klient wysyła polecenie \verb|tools/list| do serwera,
@@ -29,22 +29,22 @@ Standard definiuje trzy rodzaje usług, które serwer może udostępnić kliento
     \item uzyskane dane zostają przekazane do LLM, który je odpowiednio przetwarza.
 \end{enumerate}
 
-\begin{figure}[h]
-    \caption{Schemat użycia narzędzia MCP}
-    \label{fig:mcp-tool-usage}
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\linewidth]{img/mcp-tool-usage.drawio.png}
+    \caption{Schemat użycia narzędzia MCP}
+    \label{fig:mcp-tool-usage}
 \end{figure}
 
 \newpage
 Drugim rodzajem udostępnianych usług są \textbf{zasoby} (ang. \textit{resources}) \cite{mcp-resources}. Są to statyczne dane tylko do odczytu. Najczęściej są to zawartości plików, schematy baz danych, czy dokumentacje. Każdy zasób musi być unikalnie identyfikowany przez URI. Specyfikacja MCP nie narzuca żadnego formatu udostępnianych danych. Funkcja zasobów w protokole MCP posiada dwie opcjonalne możliwości:
 
 \begin{itemize}
-    \item subskrypcje - klienci mogą subskrybować zasób, dzięki czemu otrzymają informację o zmianach w pojedynczych zasobach,
-    \item powiadomienie o zmianach listy - gdy lista dostępnych zasobów w serwerze ulegnie zmianie, wysyła on odpowiednie powiadomienie.
+    \item subskrypcje --- klienci mogą subskrybować zasób, dzięki czemu otrzymają informację o zmianach w pojedynczych zasobach,
+    \item powiadomienie o zmianach listy --- gdy lista dostępnych zasobów w serwerze ulegnie zmianie, wysyła on odpowiednie powiadomienie.
 \end{itemize}
 
-Trzecim rodzajem usług serwerów MCP są \textbf{prompty} (ang. \textit{prompts}) \cite{mcp-prompts}. Są to szablony ustandardyzowanych zapytań, które mogą trafić do modeli AI. Klienci MCP mogą je personalizować poprzez przekazywanie argumentów. Przykładową definicję promptu MCP prezentuje listing \ref{lst:prompt-def}.
+Trzecim rodzajem usług serwerów MCP są \textbf{prompty} (ang. \textit{prompts}) \cite{mcp-prompts}. Są to szablony ustandardyzowanych zapytań, które mogą trafić do modeli AI. Klienci MCP mogą je personalizować poprzez przekazywanie argumentów. Przykładową definicję promptu MCP prezentuje listing~\ref{lst:prompt-def}.
 
 \begin{lstlisting}[
     caption={Definicja promptu "code\_review"},
