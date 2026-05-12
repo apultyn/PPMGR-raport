@@ -5,11 +5,11 @@ Rozwiązanie MCP składa się z trzech głównych rodzajów komponentów \cite{m
 
 \begin{itemize}
     \item gospodarzy (ang. \textit{MCP Host}) - aplikacji AI koordynujących i zarządzających klientami MCP,
-    \item klientów (ang. \textit{MCP Client}) - komponentów łączących się z serwerami i pozyskujących kontekt dla gospodarzy,
+    \item klientów (ang. \textit{MCP Client}) - komponentów łączących się z serwerami i pozyskujących kontekst dla gospodarzy,
     \item serwerów (ang. \textit{MCP Server}) - programów dostarczających kontekst dla klientów.
 \end{itemize}
 
-Przykładowy działający system przedstawiony został na rysunku \ref{fig:mcp-components}. Gospodarz MCP tworzy klientów dla każdego połączenia z serwerem. Serwer może  zarówno działać na tej samej maszynie co gospodarz (wtedy zwykle przyjmuje na raz tylko jednego klienta), lub na zewnętrznej maszynie (przyjmuje zwykle wielu klientów na raz, wykorzystując protokół HTTP do komunikacji).
+Przykładowy działający system przedstawiony został na rysunku \ref{fig:mcp-components}. Gospodarz MCP tworzy klientów dla każdego połączenia z serwerem. Serwer może zarówno działać na tej samej maszynie co gospodarz (wtedy zwykle przyjmuje na raz tylko jednego klienta), jak i na zewnętrznej maszynie (przyjmuje zwykle wielu klientów na raz, wykorzystując protokół HTTP do komunikacji).
 
 \begin{figure}[h]
     \caption{Przykładowy schemat komponentów działającego systemu}
@@ -18,7 +18,7 @@ Przykładowy działający system przedstawiony został na rysunku \ref{fig:mcp-c
     \includegraphics[width=\linewidth]{img/mcp-components-schema.drawio.png}
 \end{figure}
 
-Standard definiuje trzy rodzaje usług, które serwer może udostępnić klientowi (ang. \textit{primitives}). Pierwszym są \textbf{narzędzia} (ang. \textit{tools}) \cite{mcp-tools}. Są to funkcje wołane przez aplikację AI, umożliwiające im wykonanie konkretnej akcji. Każda funkcja jest definiowana poprzez schemat JSON. Schemat wywołania funkcji przedstawiony został na rysunku \ref{fig:mcp-tool-usage}. Wykonywane zostają następujące kroki:
+Standard definiuje trzy rodzaje usług, które serwer może udostępnić klientowi (ang. \textit{primitives}). Pierwszym są \textbf{narzędzia} (ang. \textit{tools}) \cite{mcp-tools}. Są to funkcje wywoływane przez aplikację AI, umożliwiające im wykonanie konkretnej akcji. Każda funkcja jest definiowana poprzez schemat JSON. Schemat wywołania funkcji przedstawiony został na rysunku \ref{fig:mcp-tool-usage}. Wykonywane zostają następujące kroki:
 
 \begin{enumerate}
     \item po nawiązaniu połączenia klient wysyła polecenie \verb|tools/list| do serwera,
@@ -40,7 +40,7 @@ Standard definiuje trzy rodzaje usług, które serwer może udostępnić kliento
 Drugim rodzajem udostępnianych usług są \textbf{zasoby} (ang. \textit{resources}) \cite{mcp-resources}. Są to statyczne dane tylko do odczytu. Najczęściej są to zawartości plików, schematy baz danych, czy dokumentacje. Każdy zasób musi być unikalnie identyfikowany przez URI. Specyfikacja MCP nie narzuca żadnego formatu udostępnianych danych. Funkcja zasobów w protokole MCP posiada dwie opcjonalne możliwości:
 
 \begin{itemize}
-    \item subskrybcje - klienci mogą subskrybować zasób, dzięki czemu otrzymają informację o zmianach w pojedynczych zasobach,
+    \item subskrypcje - klienci mogą subskrybować zasób, dzięki czemu otrzymają informację o zmianach w pojedynczych zasobach,
     \item powiadomienie o zmianach listy - gdy lista dostępnych zasobów w serwerze ulegnie zmianie, wysyła on odpowiednie powiadomienie.
 \end{itemize}
 
